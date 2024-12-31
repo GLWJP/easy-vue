@@ -38,7 +38,8 @@ const autoImportPlugin = () => {
         resolvers: [
             // 自动导入 ElementPlus 组件
             ElementPlusResolver({
-                importStyle: 'sass' // 指示element-plus使用预处理样式
+                // pnpm install sass -D
+                importStyle: 'sass', // 指示element-plus使用预处理样式
             }),
         ],
         // 指定需要自动导入的目录

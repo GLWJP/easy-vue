@@ -52,12 +52,13 @@ export default defineConfig(({mode}: ConfigEnv): UserConfig => {
         css: {
             preprocessorOptions: {
                 scss: {
+                    // 自定义命名空间、自定义主题
                     additionalData: `
                         $global-namespace: '${envConfig.VITE_NAMESPACE}';
                         @forward 'element-plus/theme-chalk/src/mixins/config.scss' with ( 
                           $namespace: ${envConfig.VITE_NAMESPACE}
                         );
-                        @use 'src/styles/element-theme/element-cover.scss' as *;`.trim()
+                        @use '@/styles/element/index.scss' as *;`.trim(),
                 }
             }
         }
