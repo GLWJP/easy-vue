@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-const namespace = import.meta.env.VITE_NAMESPACE;
+import HelloWorld from "./components/HelloWorld.vue"
+
+const namespace = import.meta.env.VITE_NAMESPACE
 </script>
