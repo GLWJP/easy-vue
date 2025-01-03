@@ -1,19 +1,29 @@
-import globals from "globals"
-import pluginJs from "@eslint/js"
-import tseslint from "typescript-eslint"
-import pluginVue from "eslint-plugin-vue"
+import globals from 'globals'
+import pluginJs from '@eslint/js'
+import tseslint from 'typescript-eslint'
+import pluginVue from 'eslint-plugin-vue'
+import { fileURLToPath } from 'node:url'
+import { readFileSync } from 'node:fs'
+import { dirname, resolve } from 'path'
 
-/** @type {import('eslint').Linter.Config[]} */
+// 自动导入的全局变量配置
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const autoImportConfig = JSON.parse(readFileSync(resolve(__dirname, 'vite/autoImport/.eslintrc.json'), 'utf-8'))
+
+/** @type {import("eslint").Linter.Config[]} */
 export default [
   // 针对所有 JavaScript, TypeScript, Vue 文件的配置
   {
-    files: ["**/*.{js,mjs,cjs,ts,vue}"], // 匹配所有 JavaScript、TypeScript 和 Vue 文件
+    files: ['**/*.{js,mjs,cjs,ts,vue}'], // 匹配所有 JavaScript、TypeScript 和 Vue 文件
   },
 
   // 针对所有文件配置浏览器环境的全局变量
   {
     languageOptions: {
-      globals: globals.browser, // 定义浏览器环境中的全局变量（如 `window`, `document` 等）
+      globals: {
+        ...globals.browser, // 定义浏览器环境中的全局变量（如 `window`, `document` 等）
+        ...autoImportConfig.globals, // 定义自动导入的全局变量
+      },
     },
   },
 
@@ -24,17 +34,17 @@ export default [
   ...tseslint.configs.recommended, // 使用 `@typescript-eslint/eslint-plugin` 提供的 TypeScript 推荐规则配置
 
   // 引入并应用 Vue ESLint 插件的推荐规则
-  ...pluginVue.configs["flat/recommended"],
+  ...pluginVue.configs['flat/recommended'],
 
   {
     rules: {
-      "vue/singleline-html-element-content-newline": "off"
-    }
+      'vue/singleline-html-element-content-newline': 'off',
+    },
   },
 
   // 针对 Vue 文件的特殊配置
   {
-    files: ["**/*.vue"], // 只针对 `.vue` 文件进行配置
+    files: ['**/*.vue'], // 只针对 `.vue` 文件进行配置
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser, // 使用 TypeScript 解析器来解析 Vue 文件中的 TypeScript 代码

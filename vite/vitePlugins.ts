@@ -1,10 +1,10 @@
-import { PluginOption } from "vite"
 import vue from "@vitejs/plugin-vue"
 import vueJsx from "@vitejs/plugin-vue-jsx"
 
 import AutoImport from "unplugin-auto-import/vite"
 import Components from "unplugin-vue-components/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
+import type { PluginOption } from "vite";
 
 /**
  * 创建 Vite 插件配置数组
@@ -44,7 +44,12 @@ const autoImportPlugin = () => {
     // 指定需要自动导入的目录
     dirs: [],
     // 指定自动导入的文件位置
-    dts: "vite/autoImports/auto-imports.d.ts",
+    dts: "vite/autoImport/auto-imports.d.ts",
+    eslintrc: {
+      enabled: true,
+      filepath: "vite/autoImport/.eslintrc.json",
+      globalsPropValue: true,
+    }
   })
 }
 
@@ -58,7 +63,7 @@ const componentsPlugin = () => {
       }),
     ],
     // 指定自动注册的文件位置
-    dts: "vite/autoImports/auto-components.d.ts",
+    dts: "vite/autoImport/auto-components.d.ts",
   })
 }
 
